@@ -1,0 +1,5 @@
+asyncio
+websockets
+colorama
+openpyxl
+pandas

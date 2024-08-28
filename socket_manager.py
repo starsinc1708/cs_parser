@@ -2,7 +2,6 @@ import asyncio
 import websockets
 import json
 from datetime import datetime
-from socket_data_processor import SocketDataProcessor
 
 class SocketManager:
     def __init__(self, data_processor):

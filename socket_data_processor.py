@@ -1,5 +1,37 @@
-from datetime import datetime
 from colorama import Fore, Style
+
+
+def determine_color(winner_number):
+    """Определение цвета на основе выигрышного номера."""
+    if winner_number == 1:
+        return "синий"
+    elif winner_number == 2:
+        return "зеленый"
+    else:
+        return "оранжевый"
+
+
+def print_colored_round(round_info):
+    """Печать деталей раунда с форматированием цвета."""
+    color = round_info['color']
+    color_map = {
+        "синий": Fore.BLUE,
+        "зеленый": Fore.GREEN,
+        "оранжевый": Fore.YELLOW
+    }
+    color_code = color_map.get(color, Fore.WHITE)
+    multiplier_info = str(round_info.get('multiplier'))
+    if round_info['multiplier_winner_number'] == round_info['winner_number']:
+        multiplier_info += " ✅"
+    else:
+        multiplier_info += " ❌"
+    print(
+        f"\nРаунд ID: {round_info['round_id']}, "
+        f"Выигрышный номер: {round_info['winner_number']}, "
+        f"Цвет: {color_code}{color}{Style.RESET_ALL}, "
+        f"Множитель: {multiplier_info}, "
+    )
+
 
 class SocketDataProcessor:
     def __init__(self, data_manager):
@@ -25,7 +57,7 @@ class SocketDataProcessor:
         random_number = round_info.get('randomNumber')
 
         if winner_number is not None:
-            color = self.determine_color(winner_number)
+            color = determine_color(winner_number)
             new_data = {
                 "round_id": round_info['id'],
                 "winner_number": winner_number,
@@ -37,43 +69,13 @@ class SocketDataProcessor:
             }
             if new_data["round_id"] not in self.data_manager.df["round_id"].values:
                 self.data_manager.append_data(new_data)
-                self.print_colored_round(new_data)
+                print_colored_round(new_data)
                 self.print_color_counts()
 
     def process_medkit(self, data, timestamp):
         """Обработка данных для канала csgorun:medkit."""
         # Логика обработки данных для medkit
         pass  # Заглушка для обработки medkit
-
-    def determine_color(self, winner_number):
-        """Определение цвета на основе выигрышного номера."""
-        if winner_number == 1:
-            return "синий"
-        elif winner_number == 2:
-            return "зеленый"
-        else:
-            return "оранжевый"
-
-    def print_colored_round(self, round_info):
-        """Печать деталей раунда с форматированием цвета."""
-        color = round_info['color']
-        color_map = {
-            "синий": Fore.BLUE,
-            "зеленый": Fore.GREEN,
-            "оранжевый": Fore.YELLOW
-        }
-        color_code = color_map.get(color, Fore.WHITE)
-        multiplier_info = str(round_info.get('multiplier'))
-        if round_info['multiplier_winner_number'] == round_info['winner_number']:
-            multiplier_info += " ✅"
-        else:
-            multiplier_info += " ❌"
-        print(
-            f"\nРаунд ID: {round_info['round_id']}, "
-            f"Выигрышный номер: {round_info['winner_number']}, "
-            f"Цвет: {color_code}{color}{Style.RESET_ALL}, "
-            f"Множитель: {multiplier_info}, "
-        )
 
     def print_color_counts(self):
         """Печать количества выигрышей по цветам за последние 100 раундов и за всё время."""
