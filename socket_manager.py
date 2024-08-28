@@ -5,16 +5,27 @@ from datetime import datetime
 from socket_data_processor import SocketDataProcessor
 
 class SocketManager:
-    def __init__(self, url, headers, data_processor):
-        self.url = url
-        self.headers = headers
+    def __init__(self, data_processor):
         self.data_processor = data_processor
 
     async def connect(self):
         """Установление WebSocket соединения и обработка входящих сообщений."""
+        url = "wss://ws.cs2run.app/connection/websocket"
+        headers = {
+            "Pragma": "no-cache",
+            "Origin": "https://cs2a.run",
+            "Accept-Language": "ru,en;q=0.9",
+            "Sec-WebSocket-Key": "tKE+1q+KUhtyCnCRNR0KMA==",
+            "User-Agent": "Mozilla/5.0",
+            "Upgrade": "websocket",
+            "Cache-Control": "no-cache",
+            "Connection": "Upgrade",
+            "Sec-WebSocket-Version": "13",
+            "Sec-WebSocket-Extensions": "permessage-deflate; client_max_window_bits"
+        }
         while True:
             try:
-                async with websockets.connect(self.url, extra_headers=self.headers) as websocket:
+                async with websockets.connect(url, extra_headers=headers) as websocket:
                     print("Соединение установлено")
                     await self.authenticate(websocket)
                     await self.subscribe_channels(websocket)
