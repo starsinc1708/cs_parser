@@ -1,26 +1,20 @@
-# CS:GO Run Data Collector
+# CS_run Data Collector
 
-## Описание проекта
+## Requirements
 
-Этот проект предназначен для подключения к WebSocket серверу и сбора данных с каналов CS:GO Run. Программа записывает информацию о раундах (выигрышные номера, цвета и т.д.) в Excel файл, а также выводит статистику за последние 100 раундов и за все время работы программы.
+Before getting started, make sure you have the following dependencies installed:
 
-Программа поддерживает подписку на различные каналы и обрабатывает данные с этих каналов. В будущем можно расширить функционал для обработки данных с дополнительных каналов.
-
-## Требования
-
-Перед началом работы убедитесь, что у вас установлены следующие зависимости:
-
-- Python 3.7 или выше
+- Python 3.7 or higher
 - `asyncio`
 - `websockets`
 - `colorama`
 - `openpyxl`
 - `pandas`
 
-## Установка
+## Installation
 
-1. Клонируйте репозиторий или скачайте файлы проекта.
-2. Установите необходимые зависимости:
+1. Clone the repository or download the project files.
+2. Install the required dependencies:
 
    ```bash
    pip install -r requirements.txt
